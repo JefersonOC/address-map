@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Google Maps</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="css/sticky-footer.css" rel="stylesheet">
+
+    <script type="text/javascript" charset="ISO-8859-1" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <script type="text/javascript" src="js/maps.js"></script>
+</head>
+
+<body>
+
+    <!-- Begin page content -->
+    <main role="main" class="container">
+        <h1 class="mt-5">Address</h1>
+        <p class="lead">This is an example for map location.</p>
+
+        <div class="control-group">
+            <label class="control-label" for="txtEndereco">
+                Endereço
+            </label>
+            <div class="input-prepend">
+                <span class="add-on">
+                    <i class="icon-map-marker"></i>
+                </span>
+                <input type="text" id="txtEndereco" placeholder="Endereço Completo" style="width: 900px" maxlength="200" />
+            </div>
+
+            <div class="controls">
+                <div id="gmap"></div>
+            </div>
+
+            <div class="input-prepend">
+                <span class="add-on">
+                    <i class="icon-globe"></i>
+                </span>
+                <input type="text" id="txtLatitude" placeholder="Latitude" readonly="true" style="text-align: right" class="input-xlarge">
+            </div>
+
+            <div class="input-prepend">
+                <span class="add-on">
+                    <i class="icon-globe"></i>
+                </span>
+                <input type="text" id="txtLongitude" placeholder="Longitude" readonly="true" style="text-align: right;" class="input-xlarge">
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">by Jeferson Cruz</span>
+        </div>
+    </footer>
+</body>
+
+</html>
