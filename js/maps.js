@@ -4,12 +4,11 @@ var map;
 var marker;
 
 function initialize() {
-    var options = {
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
 
-    map = new google.maps.Map(document.getElementById("gmap"), options);
+    map = new google.maps.Map(document.getElementById("gmap"), {
+        zoom: 15,
+        mapTypeId: 'roadmap'
+    });
 
     geocoder = new google.maps.Geocoder();
 
@@ -18,27 +17,43 @@ function initialize() {
         draggable: true
     });
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            latlng = new google.maps.LatLng(position.coords.latitude,
-                    position.coords.longitude);
+    var infoWindow = new google.maps.InfoWindow({ map: map });
 
-            marker.setPosition(latlng);
-            map.setCenter(latlng);
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            marker.setPosition(pos);
+            map.setCenter(pos);
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+        }, function () {
+            handleLocationError(true, infoWindow, map.getCenter());
         });
     } else {
-        var latlng = new google.maps.LatLng(-15.7801482, -47.92916980000001);
-        marker.setPosition(latlng);
-        map.setCenter(latlng);
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
     }
 }
 
-$(document).ready(function() {
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(browserHasGeolocation ?
+        'Error: The Geolocation service failed.' :
+        'Error: Your browser doesn\'t support geolocation.');
+}
+
+
+$(document).ready(function () {
 
     initialize();
 
     function carregarNoMapa(endereco) {
-        geocoder.geocode({'address': endereco + ', Brasil', 'region': 'BR'}, function(results, status) {
+        geocoder.geocode({ 'address': endereco + ', Brasil', 'region': 'BR' }, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
                 if (results[0]) {
                     var latitude = results[0].geometry.location.lat();
@@ -57,13 +72,13 @@ $(document).ready(function() {
         });
     }
 
-    $("#txtEndereco").blur(function() {
+    $("#txtEndereco").blur(function () {
         if ($(this).val() !== "")
             carregarNoMapa($(this).val());
     });
 
-    google.maps.event.addListener(marker, 'drag', function() {
-        geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
+    google.maps.event.addListener(marker, 'drag', function () {
+        geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
                 if (results[0]) {
                     $('#txtEndereco').val(results[0].formatted_address);
@@ -75,9 +90,9 @@ $(document).ready(function() {
     });
 
     $("#txtEndereco").autocomplete({
-        source: function(request, response) {
-            geocoder.geocode({'address': request.term + ', Brasil', 'region': 'BR'}, function(results, status) {
-                response($.map(results, function(item) {
+        source: function (request, response) {
+            geocoder.geocode({ 'address': request.term + ', Brasil', 'region': 'BR' }, function (results, status) {
+                response($.map(results, function (item) {
                     return {
                         label: item.formatted_address,
                         value: item.formatted_address,
@@ -87,7 +102,7 @@ $(document).ready(function() {
                 }));
             });
         },
-        select: function(event, ui) {
+        select: function (event, ui) {
             $("#txtLatitude").val(ui.item.latitude);
             $("#txtLongitude").val(ui.item.longitude);
             var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
